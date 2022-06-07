@@ -12,14 +12,17 @@ import time
 
 
 def ejecutar(n):
-    inicio = time.time()
-    vector = genrnd(n)
-    mediaValor  = media(vector)
-    medianaValor = mediana(vector)
-    rangoValor = rango(vector)
-    varianzaValor = varianza(vector, mediaValor)
-    minimoValor = minimo(vector)
-    maximoValor = maximo(vector)
-    return time.time() - inicio
+    try:
+        inicio = time.time()
+        vector = genrnd(n)
+        mediaValor  = media(vector)
+        medianaValor = mediana(vector)
+        rangoValor = rango(vector)
+        varianzaValor = varianza(vector, mediaValor)
+        minimoValor = minimo(vector)
+        maximoValor = maximo(vector)
+        return time.time() - inicio
+    except KeyboardInterrupt:
+        print("Proceso interrumpido!")
     
-print(ejecutar(500_000_000_000_000_000))
+print(ejecutar(5000000000))
