@@ -1,7 +1,60 @@
 import random
+# import time
 
 def genrnd(n):
-    rndList = [random.random() for x in range(n)]
+    rndList = [random.randint(0, 100) for x in range(n)]
     
     return rndList
 
+print(genrnd(5))
+# nextT = 0
+# y = [0, 0]
+# x = []
+# c= []
+# p = 0
+
+# for i in range(9):
+#     try:
+#         Xi= 10**i * 1
+#         print("Array de ", Xi, "elementos:")
+#         inicio = time.time()
+#         a = genrnd(10**i * 1)
+#         t = time.time() - inicio
+#         print("Tarda: ", t, "s")
+        
+#         if i == 0:
+#             c.append(t)
+#             y[0] = t
+#             x.append(Xi)
+            
+#             p = c[i]
+        
+#         if i == 1:
+#             y[1] = t
+#             x.append(Xi)
+            
+#             c.append(( y[1] - y[0] ) / ( x[1] - x[0] ))
+#             print(p)
+#             p += (c[i] * (10**(i+1) * 1))
+        
+#         if i > 1:
+#             y = [y[1], t]
+#             x.append(Xi)
+#             dStr = ""
+#             d = 1
+#             for j in range(i):
+#                 d *= (x[i] - x[j])
+            
+#             print(d)    
+#             print(y[1])
+#             print(p)
+#             print(x[i])
+            
+#             c.append(( y[1] - p * x[i]) / d)
+            
+#             p += (c[i] * d)
+            
+#         nextT = p
+#         print("Proximo estimado:", nextT, end="\n\n")
+#     except KeyboardInterrupt:
+#         print("interumpido")
