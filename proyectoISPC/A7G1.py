@@ -25,4 +25,4 @@ def ejecutar(n):
     except KeyboardInterrupt:
         print("Proceso interrumpido!")
     
-print(ejecutar(5000000000))
+print(ejecutar(50))
