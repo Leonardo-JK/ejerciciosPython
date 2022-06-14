@@ -6,7 +6,6 @@ def genrnd(n):
     
     return rndList
 
-print(genrnd(5))
 # nextT = 0
 # y = [0, 0]
 # x = []
