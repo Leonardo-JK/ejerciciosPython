@@ -19,5 +19,10 @@ for line in fileOpen:
 
 fileOpen.close()
 
-for key in sorted(dic.keys()):
+#Order by recurrence:
+for key in sorted(dic.keys(), key=dic.get): 
+    print(key, "->", dic[key])
+    
+#Order by char:
+for key in sorted(dic.keys(), key=dic.get): 
     print(key, "->", dic[key])
