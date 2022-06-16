@@ -1,4 +1,5 @@
-any_list = [1, 2, 3, 4]
-even_list = list(map(lambda n: n|1, any_list))
-print(even_list)
+my_tuple = (0,1,2,3,4,5,6)
 
+foo=list(filter(lambda x: x-0 and x-1, my_tuple))
+
+print(foo)
