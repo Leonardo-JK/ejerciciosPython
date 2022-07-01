@@ -26,5 +26,17 @@ def prod_no_repeat(list):
             
     return prod
 
-
-print(prod_no_repeat([1,2,3,3,5,6]))
+def prod_no_repeat2(list):
+    #Combinaciones posibles de elementos sin repetir.
+    aux = []
+    prod = []
+    
+    for num in list:
+        if num not in aux:
+            aux.append(num)            
+        
+    for i in range(len(aux)):
+        for j in range(len(aux) - 1 -  i):
+            prod.append(aux[i] * aux[j + 1 + i])
+            
+    return prod

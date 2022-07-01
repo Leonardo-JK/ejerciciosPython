@@ -14,7 +14,7 @@ x = []
 c= []
 p = 0
 
-for i in range(10):
+for i in range(8):
     try:
         Xi= 10**i * 5
         print("Array de ", Xi, "elementos:")
@@ -45,9 +45,7 @@ for i in range(10):
             d = 1
             for j in range(i):
                 d *= (x[i] - x[j])
-            
-            
-            
+                        
             c.append(( y[1] - p * x[i]) / d)
             
             p += (c[i] * d)
