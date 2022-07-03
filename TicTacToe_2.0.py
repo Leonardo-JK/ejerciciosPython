@@ -1,10 +1,14 @@
 import random
+import copy
+from tracemalloc import start
 
 print("Welcome to Tic-Tac-Toe!")
 print("The board is enumerate like this:")
 
 board_matrix = [[j+(i*3)+1 for j in range(3)] for i in range(3)]
 board_values = [[int(0) for j in range(3)] for i in range(3)]
+start_game = True
+
 def show_board():
     for i in range(3):
         print(f'{board_matrix[i][0]} | {board_matrix[i][1]} | {board_matrix[i][2]}')
@@ -24,7 +28,6 @@ def take(num, play):
             if num == board_matrix[i][j]:
                 board_matrix[i][j] = play
                 del position_avaible[position_avaible.index(num)]
-                position_taked.append(num)
                 
                 if play == "O":
                     board_values[i][j] = int(-1)
@@ -33,6 +36,67 @@ def take(num, play):
                 
                 break
             
+def bestChoise():
+    best = [0, 0, 0]
+    
+    for num in position_avaible:
+        board_values_aux = copy.deepcopy(board_values)
+        for i in range(3):    
+            for j in range(3):
+                if num == board_matrix[i][j]:
+                    board_values_aux[i][j] = int(-1)
+                            
+                    for k in range(3):            
+                        if sum_v(k, board_values_aux) < best[0]:
+                            best[0] = sum_v(k, board_values_aux)
+                            best[1], best[2] = i,j
+                                                    
+                    for k in range(3):
+                        if sum_h(k, board_values_aux) < best[0]:
+                            best[0] = sum_h(k, board_values_aux)
+                            best[1], best[2] = i,j
+                            
+                    if sum_d(1, board_values_aux) < best[0]:
+                        best[0] = sum_d(1, board_values_aux)
+                        best[1], best[2] = i,j
+                    elif sum_d(-1, board_values_aux) - 1 < best[0]:
+                        best[0] = sum_d(-1, board_values_aux)
+                        best[1], best[2] = i,j
+                    
+                
+    print(board_matrix[best[1]][best[2]])
+    
+    if start_game:
+        return random.choice(position_avaible)
+    else:
+        return board_matrix[best[1]][best[2]]
+    
+def sum_v(col,values):
+    sumV = 0
+    
+    for i in range(3):
+        sumV += values[i][col]
+    
+    return sumV
+
+def sum_h(row, values):
+    sumH = 0
+    
+    for i in range(3):
+        sumH += values[row][i]
+        
+    return sumH
+
+def sum_d(dia, values):
+    sumD = 0
+    
+    for i in range(3):
+        if dia == 1:
+            sumD += values[i][i * dia]
+        elif dia == -1:
+            sumD += values[i][(i + 1) * dia]
+    
+    return sumD
 
 def check(num):
     if num not in position_avaible:
@@ -41,28 +105,22 @@ def check(num):
         return False
     
 def there_is_winner():
-    sum_v = [0,0,0]
-    sum_d = [0,0]
-    
-    
     for i in range(3):
-        sum_d[0] += board_values[i][i]
-        sum_d[1] += board_values[-i][-i]
+        sumV = sum_v(i, board_values)
+        if abs(sumV) == 3:
+            return sumV
         
-        for j in range(3):
-            sum_v[i] += board_values[j][i]
-                    
-        if abs(sum_v[i]) == 3:
-            return sum_v[i]
-            
-        if abs(sum(board_values[i])) == 3:
-            return sum(board_values[i])
+        sumH = sum_h(i, board_values)
+        if abs(sumH) == 3:
+            return sumH
 
-        if abs(sum_d[0]) == 3:
-            return sum_d[0]
-        
-        if abs(sum_d[1]) == 3:
-            return sum_d[1]    
+    dia1 = sum_d(1, board_values)
+    if abs(dia1) == 3:
+        return dia1
+    
+    dia2 = sum_d(-1, board_values)
+    if abs(dia2) == 3:
+        return dia2
     
 win = False
 
@@ -71,11 +129,13 @@ def playerVsPc():
     
     while not win:
         
-        take(random.choice(position_avaible), "O")
+        take(bestChoise(), "O")
         show_board()
+        start_game = False
         
         if there_is_winner() == -3:
             print("I WIN!")
+            print(board_values)
             break
         
         player_choice = int(input("Your turn:"))
