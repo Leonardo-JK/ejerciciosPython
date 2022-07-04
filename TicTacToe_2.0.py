@@ -1,6 +1,5 @@
 import random
 import copy
-from tracemalloc import start
 
 print("Welcome to Tic-Tac-Toe!")
 print("The board is enumerate like this:")
@@ -11,7 +10,7 @@ start_game = True
 
 def show_board():
     for i in range(3):
-        print(f'{board_matrix[i][0]} | {board_matrix[i][1]} | {board_matrix[i][2]}')
+        print(f'{board_matrix[i][0] if board_matrix[i][0] else " "} | {board_matrix[i][1] if board_matrix[i][1] else " "} | {board_matrix[i][2] if board_matrix[i][2] else " "}')
     print("")
     
 show_board()
@@ -65,7 +64,7 @@ def bestChoise():
                     
                 
     print(board_matrix[best[1]][best[2]])
-    
+    print(start_game)
     if start_game:
         return random.choice(position_avaible)
     else:
@@ -131,6 +130,7 @@ def playerVsPc():
         
         take(bestChoise(), "O")
         show_board()
+        global start_game
         start_game = False
         
         if there_is_winner() == -3:
