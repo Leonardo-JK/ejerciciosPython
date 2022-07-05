@@ -7,20 +7,25 @@ print("The board is enumerate like this:")
 board_matrix = [[j+(i*3)+1 for j in range(3)] for i in range(3)]
 board_values = [[int(0) for j in range(3)] for i in range(3)]
 start_game = True
+selection = 0 
+position_avaible = [1,2,3,4,5,6,7,8,9]
+
+def clear_game():
+    global board_matrix
+    print(board_matrix)
+    board_matrix = [[j+(i*3)+1 for j in range(3)] for i in range(3)]
+    print(board_matrix)
+    global board_values
+    board_values = [[int(0) for j in range(3)] for i in range(3)]
+    global start_game
+    start_game = True
+    global position_avaible
+    position_avaible = [1,2,3,4,5,6,7,8,9]
 
 def show_board():
     for i in range(3):
         print(f'{board_matrix[i][0] if board_matrix[i][0] else " "} | {board_matrix[i][1] if board_matrix[i][1] else " "} | {board_matrix[i][2] if board_matrix[i][2] else " "}')
     print("")
-    
-    
-show_board()
-
-print("How you want to play?","", "1)- Player 1 vs Player 2", "2)- Player 1 vs PC", sep="\n", end="\n")
-
-selection = 0       
-position_avaible = [1,2,3,4,5,6,7,8,9]
-position_taked = []
 
 def take(num, play):
     for i in range(3):
@@ -203,32 +208,48 @@ win = False
 def playerVsPc():
     print("\n", "I'm first! I play with O's, you play with  X's.")
     
-    while not win:
-        take(best_choise(), "O")
-        show_board()
+    while not win:        
         global start_game
         start_game = False
+        finished_game = False
         
-        if there_is_winner() == -3:
-            print("I WIN!")
-            print(board_values)
-            break
+        while not finished_game:
+            take(best_choise(), "O")
+            show_board()
+            
+            if there_is_winner() == -3:
+                print("I WIN!")
+                finished_game = True
+                
+            
+            if len(position_avaible) == 0:
+                print("It's a tie!")
+                
+            if not finished_game:
+                player_choice = int(input("Your turn:"))
+                
+                while check(player_choice):
+                    player_choice = int(input("Choice an avaible number of the board:"))
+                
+                take(player_choice, "X")
+                show_board()
+                
+                if there_is_winner() == 3:
+                    print("You WIN!")
+                    finished_game = True
         
-        if len(position_avaible) == 0:
-            print("Empate!")
-            break
-        
-        player_choice = int(input("Your turn:"))
-        
-        while check(player_choice):
-            player_choice = int(input("Choice an avaible number of the board:"))
-        
-        take(player_choice, "X")
-        show_board()
-        
-        if there_is_winner() == 3:
-            print("You WIN!")
-            break
+        while finished_game:
+            choise = input("Do you want to play again? (S/N)\n")
+                        
+            if choise == "S":
+                clear_game()                    
+                show_board()
+                select()
+                finished_game = False
+            elif choise == "N":
+                exit()
+            else: 
+                print("You must to choise between S or N", end="\n")    
 
 def playerVsPlayer():
     player = "O"
@@ -253,13 +274,20 @@ def playerVsPlayer():
         else:
             player = "O"
 
-while selection == 0:
-    selection = int(input(""))
-    
-    if selection == 1:
-        playerVsPlayer()
-    elif selection == 2:
-        playerVsPc()
-    else:
-        print("You can chose only 1 or 2.")
-        selection = 0
+def select():
+    global selection
+    while  selection == 0:
+        selection = int(input(""))
+        
+        if selection == 1:
+            playerVsPlayer()
+        elif selection == 2:
+            playerVsPc()
+        else:
+            print("You can chose only 1 or 2.")
+            selection = 0  
+             
+clear_game()    
+show_board()
+print("How you want to play?","", "1)- Player 1 vs Player 2", "2)- Player 1 vs PC", sep="\n", end="\n")
+select()
