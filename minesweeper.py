@@ -1,6 +1,9 @@
 import random
+from time import time
 from numpy import prod, product
 
+start_time = 0
+final_time = 0
 class Board:
     def __init__(self, size_width, size_heigth, bombs_num):
         self.bombs_num = bombs_num
@@ -36,7 +39,7 @@ class Board:
                                                                                             #
         for i in range(self.size[0]):                                                       #
             for j in range(self.size[1] + 1):                                               #
-                print((str(i) + " |") if j == 0 else self.board_values[i][j - 1], end="  ")  #
+                print((str(i) + " |") if j == 0 else self.board_values[i][j - 1], end="  ") #
             print("|")                                                                      #
     #########################################################################################
     
@@ -133,7 +136,10 @@ class Board:
             print("")
             print("Free postion left: ", end="")
             self.free()
+            global final_time
+            final_time = time.time()
             print("Congratulation! YOU WIN!")
+            print("Your time: ", final_time - start_time, "seconds.")
             return False
 
 print("Welcome  to Minesweeper!")
@@ -150,6 +156,7 @@ on_game = True
 show = [None, None]
 
 while on_game:
+    start_time = time.time()
     print("")
     print("Free postion left: ", end="")
     game.free()
@@ -176,4 +183,3 @@ while on_game:
             else: 
                 choise = ""
                 print("You must to choose between 's' or 'n'.")
-        
