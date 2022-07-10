@@ -1,6 +1,8 @@
-class A:
-    def __init__(self):
-        pass
+h = input("a: ")
+b = h.split(",")
+print(b)
+
+
     
-a = A(1)
-print(hasattr(a,"A"))
+    
+    
